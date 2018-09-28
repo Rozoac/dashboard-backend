@@ -1,0 +1,1 @@
+module.exports.SEED = "clavesita-op!difil-elcesar123";
