@@ -10,7 +10,14 @@ var mdAutenticacion = require("../middlewares/autenticacion");
 // =============================
 
 app.get("/", (req, res, next) => {
-  Usuario.find({}).exec((err, usuarios) => {
+
+  var desde = req.query.desde || 0;
+  desde = Number(desde);
+
+  Usuario.find({}, 'nombre email role')
+  .skip(desde)
+  .limit(5)
+  .exec((err, usuarios) => {
     if (err) {
       return res.status(500).json({
         ok: false,
@@ -81,7 +88,8 @@ app.put("/:id", (req, res) => {
 // =============================
 // Crear un usuario nuevo
 // =============================
-app.post("/", mdAutenticacion.verificaToken, (req, res) => {
+app.post("/",  (req, res) => {
+  // mdAutenticacion.verificaToken
   var body = req.body;
 
   var usuario = new Usuario({

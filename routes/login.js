@@ -21,7 +21,7 @@ app.post("/", (req, res) => {
 
     //EMAIL
     if (!usuarioDB) {
-      res.status(400).json({
+      return res.status(400).json({
         ok: false,
         mensaje: "Datos incorrectos - email",
         error: err
