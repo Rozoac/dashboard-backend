@@ -14,7 +14,7 @@ app.get("/", (req, res, next) => {
   var desde = req.query.desde || 0;
   desde = Number(desde);
 
-  Usuario.find({}, 'nombre email role')
+  Usuario.find({}, 'nombre email role img')
   .skip(desde)
   .limit(5)
   .exec((err, usuarios) => {
@@ -40,7 +40,7 @@ app.get("/", (req, res, next) => {
 // ACTUALIZAR USUARIO
 // =============================
 
-app.put("/:id", (req, res) => {
+app.put("/:id", mdAutenticacion.verificaToken, (req, res) => {
   var id = req.params.id;
   var body = req.body;
 
@@ -63,7 +63,7 @@ app.put("/:id", (req, res) => {
 
     usuario.nombre = body.nombre;
     usuario.email = body.email;
-    (usuario.password = bcrypt.hashSync(body.password, 10)),
+    (usuario.password = bcrypt.hashSync(body.password, 10));
       (usuario.role = body.role);
 
     usuario.save((err, usuarioGuardado) => {
